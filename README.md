@@ -46,7 +46,10 @@ Watch the calico-system DaemonSets
 ```
 kubectl get daemonset calico-node -n calico-system
 ```
-Default network polices are placed in folder - default-network-policies , review and reuse it as per the use case.
+Default network polices are placed in folder - **default-network-policies** , review and reuse it as per the use case.
+
+## hpa
+Kubernetes-native tools such as vpa/hpa can be used to dynamically scale resources based on real-time metrics such as CPU and memory, to scale based on network usage or any other parameters, you need to configure KEDA or Prometheus. Sample manifests can referenced from hpa folder.
 
 ## License
 
