@@ -36,7 +36,17 @@ To deploy your infrastructure, follow these steps:
 5. Plan your changes: `terraform plan -var-file=variables/env.tfvars`
 6. Apply your changes: `terraform apply -var-file=variables/env.tfvars`
 
-Please read the individual README files in each module directory for more specific details.
+## Installing Calico on Amazon EKS
+Apply the Calico manifests
+```
+kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-operator.yaml
+kubectl apply -f https://raw.githubusercontent.com/aws/amazon-vpc-cni-k8s/master/config/master/calico-crs.yaml
+```
+Watch the calico-system DaemonSets
+```
+kubectl get daemonset calico-node -n calico-system
+```
+Default network polices are placed in folder - default-network-policies , review and reuse it as per the use case.
 
 ## License
 
