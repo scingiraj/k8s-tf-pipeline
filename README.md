@@ -62,11 +62,11 @@ helm repo update
 helm install grafana grafana/grafana
 ```
 ## Security Best Practices
-
+```
 Sonarqube Integration: Integrate Sonarqube for code quality analysis
 OWASP Dependency-Check
 Trivy File Scan & Image Scan
-
+```
 ## Jenkinsfile has all the necessary stages included 
 
 ## License
