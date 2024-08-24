@@ -51,6 +51,24 @@ Default network polices are placed in folder - **default-network-policies** , re
 ## hpa
 Kubernetes-native tools such as vpa/hpa can be used to dynamically scale resources based on real-time metrics such as CPU and memory, to scale based on network usage or any other parameters, you need to configure KEDA or Prometheus. Sample manifests can referenced from hpa folder.
 
+## Install Proemetheus & Grafana for Logging and Monitoring
+
+```
+helm repo add stable https://charts.helm.sh/stable
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+helm install prometheus prometheus-community/prometheus
+helm repo add grafana https://grafana.github.io/helm-charts
+helm repo update
+helm install grafana grafana/grafana
+```
+## Security Best Practices
+
+Sonarqube Integration: Integrate Sonarqube for code quality analysis
+OWASP Dependency-Check
+Trivy File Scan & Image Scan
+
+## Jenkinsfile has all the necessary stages included 
+
 ## License
 
 This project is licensed under the terms of the MIT license. 
