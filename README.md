@@ -36,6 +36,33 @@ To deploy your infrastructure, follow these steps:
 5. Plan your changes: `terraform plan -var-file=variables/env.tfvars`
 6. Apply your changes: `terraform apply -var-file=variables/env.tfvars`
 
+Configure the Load Balancer on our EKS because our application will have an ingress controller.
+Download the policy for the LoadBalancer prerequisite.
+```
+curl -O https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/v2.5.4/docs/install/iam_policy.json
+```
+Create the IAM policy using the below command
+```
+aws iam create-policy --policy-name AWSLoadBalancerControllerIAMPolicy --policy-document file://iam_policy.json
+```
+Create OIDC Provider
+```
+eksctl utils associate-iam-oidc-provider --region=eu-west-3 --cluster=demo-cluster --approve
+```
+Create a Service Account by using below command and replace your account ID with your one
+```
+eksctl create iamserviceaccount --cluster=demo-cluster --namespace=kube-system --name=aws-load-balancer-controller --role-name AmazonEKSLoadBalancerControllerRole --attach-policy-arn=arn:aws:iam::<your_account_id>:policy/AWSLoadBalancerControllerIAMPolicy --approve --region=eu-west-3
+```
+Run the below command to deploy the AWS Load Balancer Controller
+```
+sudo snap install helm --classic
+helm repo add eks https://aws.github.io/eks-charts
+helm repo update eks
+helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=my-cluster --set serviceAccount.create=false --set serviceAccount.name=aws-load-balancer-controller
+```
+```
+kubectl get deployment -n kube-system aws-load-balancer-controller
+```
 ## Network Policies -- Installing Calico on Amazon EKS
 Apply the Calico manifests
 ```
