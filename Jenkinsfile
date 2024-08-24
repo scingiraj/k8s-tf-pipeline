@@ -91,14 +91,14 @@ pipeline {
                 GIT_USER_NAME = "Git hub User name"
             }
             steps {
-                dir('Kubernetes-Manifests-file/Frontend') {
+                dir('hpa') {
                     withCredentials([string(credentialsId: 'github', variable: 'GITHUB_TOKEN')]) {
                         sh '''
                             git config user.email "example@example.com"
                             git config user.name "Git hub User name"
                             BUILD_NUMBER=${BUILD_NUMBER}
                             echo $BUILD_NUMBER
-                            imageTag=$(grep -oP '(?<=frontend:)[^ ]+' app.yaml)
+                            imageTag=$(grep -oP '(?<=myapp:)[^ ]+' app.yaml)
                             echo $imageTag
                             sed -i "s/${AWS_ECR_REPO_NAME}:${imageTag}/${AWS_ECR_REPO_NAME}:${BUILD_NUMBER}/" app.yaml
                             git add deployment.yaml
